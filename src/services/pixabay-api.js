@@ -12,7 +12,10 @@ const fetchPics = ({
     .get(
       `/?key=${PixabayKey}&q=${searchQuery}&page=${currentPage}&image_type=photo&orientation=horizontal&per_page=${per_page}`,
     )
-    .then(response => response.data.hits);
+    .then(response => {
+      // console.log(response.data.totalHits);
+      return response.data;
+    });
 };
 
 export default { fetchPics };

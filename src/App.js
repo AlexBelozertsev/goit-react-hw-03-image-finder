@@ -13,6 +13,7 @@ class App extends Component {
   state = {
     images: [],
     currentPage: 1,
+    total: null,
     searchQuery: '',
     isLoading: false,
     showModal: false,
@@ -35,19 +36,22 @@ class App extends Component {
 
     pixabayApi
       .fetchPics(option)
-      .then(hits => {
-        if (!hits.length) {
+      .then(data => {
+        console.log(data);
+        if (!data.hits.length) {
           alert(`Please enter more correct query`);
           return;
         }
         this.setState(prevState => ({
-          images: [...prevState.images, ...hits],
+          images: [...prevState.images, ...data.hits],
           currentPage: prevState.currentPage + 1,
+          total: data.total,
         }));
         window.scrollTo({
           top: document.documentElement.scrollHeight,
           behavior: 'smooth',
         });
+        console.log(this.state.total);
       })
       .catch(error => this.setState({ error }))
       .finally(() => this.setState({ isLoading: false }));
@@ -58,6 +62,7 @@ class App extends Component {
       searchQuery: query,
       currentPage: 1,
       images: [],
+      total: null,
       error: null,
     });
   };
@@ -76,7 +81,7 @@ class App extends Component {
   };
 
   render() {
-    const { images, showModal, isLoading, largeImageURL } = this.state;
+    const { images, showModal, isLoading, largeImageURL, total } = this.state;
 
     return (
       <Layout>
@@ -96,7 +101,9 @@ class App extends Component {
             <img src={largeImageURL} alt="" />
           </Modal>
         )}
-        {images.length > 0 && <Button onClick={this.fetchImages} />}
+        {images.length > 0 && images.length < total && (
+          <Button onClick={this.fetchImages} />
+        )}
       </Layout>
     );
   }
