@@ -37,7 +37,6 @@ class App extends Component {
     pixabayApi
       .fetchPics(option)
       .then(data => {
-        console.log(data);
         if (!data.hits.length) {
           alert(`Please enter more correct query`);
           return;
@@ -51,7 +50,6 @@ class App extends Component {
           top: document.documentElement.scrollHeight,
           behavior: 'smooth',
         });
-        console.log(this.state.total);
       })
       .catch(error => this.setState({ error }))
       .finally(() => this.setState({ isLoading: false }));

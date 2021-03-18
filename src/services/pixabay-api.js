@@ -13,7 +13,6 @@ const fetchPics = ({
       `/?key=${PixabayKey}&q=${searchQuery}&page=${currentPage}&image_type=photo&orientation=horizontal&per_page=${per_page}`,
     )
     .then(response => {
-      // console.log(response.data.totalHits);
       return response.data;
     });
 };
